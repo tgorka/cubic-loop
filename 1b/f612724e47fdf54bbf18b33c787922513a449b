@@ -1,0 +1,28 @@
+cubic.yaml
+  s_ce6e23aaf7ab5a::t_014f0bfeecf616 33
+README.md
+  s_ce6e23aaf7ab5a::t_8efe917c7fcc71 72-73
+  s_ce6e23aaf7ab5a::t_7876215a09af35 29-43,46,49-54
+.claude-plugin/plugin.json
+  s_ce6e23aaf7ab5a::t_5ddb1c5b3dfe66 1-21
+.changeset/publish-as-claude-code-plugin.md
+  s_ce6e23aaf7ab5a::t_733197c9e2ec39 1-20
+.claude-plugin/marketplace.json
+  s_ce6e23aaf7ab5a::t_678a0075e2afa6 1-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "1bf612724e47fdf54bbf18b33c787922513a449b",
+  "prompts": {},
+  "sessions": {
+    "s_ce6e23aaf7ab5a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e7154ed8-a457-4fa0-aef0-6cdb2867c525",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Tomasz Gorka <tomasz@gorka.org.pl>"
+    }
+  }
+}
