@@ -26,17 +26,32 @@ bun install --frozen-lockfile
 bun run check   # Biome lint + tests (release-blocker gate)
 ```
 
-## Using the skill
+## Install as a Claude Code plugin
 
-Once installed (under `~/.claude/skills/cubic-loop/` or via a plugin), invoke from Claude Code on a branch with an open PR:
+This repo is a single-plugin Claude Code marketplace. Inside Claude Code:
 
 ```
-/cubic-loop                       # current branch's PR, defaults
-/cubic-loop 47                    # PR #47, defaults
-/cubic-loop --max-iters 3         # cap iterations
-/cubic-loop --score 9             # accept PR score >= 9/10
-/cubic-loop --timeout 600         # 10-minute per-iteration wait
-/cubic-loop --no-stamp            # don't exit on cubic's auto-approval
+/plugin marketplace add tgorka/cubic-loop
+/plugin install cubic@cubic-loop
+```
+
+The first command registers `cubic-loop` as a marketplace pointing at this GitHub repo; the second installs the `cubic` plugin from it. After installation the skill becomes available as `cubic:cubic-loop` (use it via `/cubic:cubic-loop` or the `Skill` tool with `skill: cubic:cubic-loop`).
+
+To update later: `/plugin update cubic@cubic-loop`. To remove: `/plugin uninstall cubic@cubic-loop`.
+
+You can also drop the skill in by hand by copying `skills/cubic-loop/` into `~/.claude/skills/cubic-loop/`; the plugin layer is a convenience around the same source tree.
+
+## Using the skill
+
+On a branch with an open PR, invoke from Claude Code:
+
+```
+/cubic:cubic-loop                       # current branch's PR, defaults
+/cubic:cubic-loop 47                    # PR #47, defaults
+/cubic:cubic-loop --max-iters 3         # cap iterations
+/cubic:cubic-loop --score 9             # accept PR score >= 9/10
+/cubic:cubic-loop --timeout 600         # 10-minute per-iteration wait
+/cubic:cubic-loop --no-stamp            # don't exit on cubic's auto-approval
 ```
 
 Defaults: `--max-iters 5`, `--timeout 1800` (30 min/iter), `--score 10`, stamp counts as success. Full input table and loop semantics in [`skills/cubic-loop/SKILL.md`](./skills/cubic-loop/SKILL.md); cubic-specific API recipes in [`skills/cubic-loop/references/cubic-api.md`](./skills/cubic-loop/references/cubic-api.md).
@@ -54,7 +69,8 @@ Defaults: `--max-iters 5`, `--timeout 1800` (30 min/iter), `--score 10`, stamp c
 
 ## Repository Layout
 
-- `skills/cubic-loop/` — the Claude Code skill source: `SKILL.md` (the loop body) and `references/cubic-api.md` (cubic-specific GitHub API recipes). Distributed as part of this repo and installed under `~/.claude/skills/` (or via a plugin).
+- `.claude-plugin/` — Claude Code plugin metadata. `plugin.json` defines the `cubic` plugin (name, version, skills directory); `marketplace.json` defines this repo as the `cubic-loop` single-plugin marketplace.
+- `skills/cubic-loop/` — the Claude Code skill source: `SKILL.md` (the loop body) and `references/cubic-api.md` (cubic-specific GitHub API recipes). Discovered via `plugin.json`'s `"skills": "./skills/"` pointer.
 - `src/` — TypeScript helpers (empty for now; reserved for parsing/orchestration utilities the skill may shell out to).
 - `cubic.yaml` — this repo's own cubic.dev review config. cubic-loop dogfoods itself.
 - `.changeset/` — pending Changeset entries for the next release.

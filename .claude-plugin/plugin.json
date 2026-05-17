@@ -1,0 +1,21 @@
+{
+  "name": "cubic",
+  "version": "0.1.0",
+  "description": "Iteratively drives a GitHub PR through cubic.dev review until it's green or a max-iteration ceiling is reached.",
+  "author": {
+    "name": "Tomasz Gorka"
+  },
+  "homepage": "https://github.com/tgorka/cubic-loop",
+  "repository": "https://github.com/tgorka/cubic-loop",
+  "license": "MIT",
+  "skills": "./skills/",
+  "keywords": [
+    "claude-code",
+    "claude-code-plugin",
+    "cubic",
+    "cubic-dev",
+    "code-review",
+    "pull-request",
+    "github"
+  ]
+}
