@@ -1,0 +1,15 @@
+{
+  "name": "cubic-loop",
+  "description": "cubic-loop marketplace — Claude Code plugin that iteratively drives a GitHub PR through cubic.dev review.",
+  "owner": {
+    "name": "Tomasz Gorka",
+    "url": "https://github.com/tgorka"
+  },
+  "plugins": [
+    {
+      "name": "cubic",
+      "source": "./",
+      "description": "Iteratively drives a GitHub PR through cubic.dev review until it's green or a max-iteration ceiling is reached."
+    }
+  ]
+}

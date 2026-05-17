@@ -30,6 +30,7 @@ reviews:
       - ".changeset/config.json"
       - "LICENSE"
       - "skills/**"
+      - ".claude-plugin/**"
 
   custom_instructions: |
     Project conventions are documented in AGENTS.md and CONTRIBUTING.md;
