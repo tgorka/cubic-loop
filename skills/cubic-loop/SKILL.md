@@ -66,7 +66,8 @@ the user should see what's wrong:
    If no PR and the user didn't pass `--pr`, halt and tell them to open
    one first.
 6. **Baseline-gate check.** Stash any in-progress work, check out the
-   merge-base with the PR's base branch (`git merge-base HEAD origin/<base>`),
+   merge-base with the PR's base branch (first `git fetch origin <base>`,
+   then `git merge-base HEAD origin/<base>`),
    and run each project gate (e.g. `bun run check`, `bunx tsc --noEmit`).
    Return to the PR HEAD. Any gate that already fails on the merge-base
    is **environmental**, not caused by this PR — halt with a clear
