@@ -1,0 +1,21 @@
+.changeset/readme-cli-install.md
+  s_ce6e23aaf7ab5a::t_e7da7447f5f3cd 1-10
+README.md
+  s_ce6e23aaf7ab5a::t_36690f21abd7f1 31-33,42-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "7aad585c354ba1a10434acbce61645b4e212547c",
+  "prompts": {},
+  "sessions": {
+    "s_ce6e23aaf7ab5a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e7154ed8-a457-4fa0-aef0-6cdb2867c525",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Tomasz Gorka <tomasz@gorka.org.pl>"
+    }
+  }
+}
