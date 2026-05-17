@@ -6,7 +6,9 @@ Inspired by [`greploop`](https://github.com/greptileai/greptile) for Greptile an
 
 ## Status
 
-Early scaffold. Project structure (Bun + TypeScript + Biome + Changesets + GitHub workflows + cubic.yaml) is in place; the skill body under `skills/cubic-loop/SKILL.md` is intentionally a placeholder pending design.
+The skill body under [`skills/cubic-loop/SKILL.md`](./skills/cubic-loop/SKILL.md) is in place. The repo dogfoods cubic-loop on its own PRs.
+
+TypeScript helpers in `src/` are still empty — reserved for parsing/orchestration utilities the skill may shell out to as needs emerge.
 
 ## Requirements
 
@@ -24,6 +26,21 @@ bun install --frozen-lockfile
 bun run check   # Biome lint + tests (release-blocker gate)
 ```
 
+## Using the skill
+
+Once installed (under `~/.claude/skills/cubic-loop/` or via a plugin), invoke from Claude Code on a branch with an open PR:
+
+```
+/cubic-loop                       # current branch's PR, defaults
+/cubic-loop 47                    # PR #47, defaults
+/cubic-loop --max-iters 3         # cap iterations
+/cubic-loop --score 9             # accept PR score >= 9/10
+/cubic-loop --timeout 600         # 10-minute per-iteration wait
+/cubic-loop --no-stamp            # don't exit on cubic's auto-approval
+```
+
+Defaults: `--max-iters 5`, `--timeout 1800` (30 min/iter), `--score 10`, stamp counts as success. Full input table and loop semantics in [`skills/cubic-loop/SKILL.md`](./skills/cubic-loop/SKILL.md); cubic-specific API recipes in [`skills/cubic-loop/references/cubic-api.md`](./skills/cubic-loop/references/cubic-api.md).
+
 ## Scripts
 
 | Script              | What it does                                              |
@@ -37,7 +54,7 @@ bun run check   # Biome lint + tests (release-blocker gate)
 
 ## Repository Layout
 
-- `skills/cubic-loop/` — the Claude Code skill source (SKILL.md + any references). Distributed as part of this repo and installed under `~/.claude/skills/` (or via a plugin).
+- `skills/cubic-loop/` — the Claude Code skill source: `SKILL.md` (the loop body) and `references/cubic-api.md` (cubic-specific GitHub API recipes). Distributed as part of this repo and installed under `~/.claude/skills/` (or via a plugin).
 - `src/` — TypeScript helpers (empty for now; reserved for parsing/orchestration utilities the skill may shell out to).
 - `cubic.yaml` — this repo's own cubic.dev review config. cubic-loop dogfoods itself.
 - `.changeset/` — pending Changeset entries for the next release.
