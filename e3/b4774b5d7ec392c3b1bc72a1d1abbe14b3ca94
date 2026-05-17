@@ -1,0 +1,28 @@
+skills/cubic-loop/SKILL.md
+  s_ce6e23aaf7ab5a::t_2be9f33a879075 4-10,12-16,19,25-28,30-32,34-298
+.changeset/land-cubic-loop-skill-body.md
+  s_ce6e23aaf7ab5a::t_b04facd963c375 1-11
+  s_ce6e23aaf7ab5a::t_dc265f954e96ca 12-13
+skills/cubic-loop/references/cubic-api.md
+  s_ce6e23aaf7ab5a::t_64a664c2a002e6 1-161
+README.md
+  s_ce6e23aaf7ab5a::t_b5f3b28b309721 9-11
+  s_ce6e23aaf7ab5a::t_7c670cec9391e1 29-43
+  s_ce6e23aaf7ab5a::t_971e7c9005e983 57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "e3b4774b5d7ec392c3b1bc72a1d1abbe14b3ca94",
+  "prompts": {},
+  "sessions": {
+    "s_ce6e23aaf7ab5a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e7154ed8-a457-4fa0-aef0-6cdb2867c525",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Tomasz Gorka <tomasz@gorka.org.pl>"
+    }
+  }
+}
