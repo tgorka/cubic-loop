@@ -79,12 +79,13 @@ Cubic only sees what GitHub sees. If the local branch is ahead of the
 remote, push it before triggering review:
 
 ```bash
-git push 2>/dev/null || true
+git push
 ```
 
-(The `|| true` swallows "everything up-to-date" — that's not an error
-for our purposes. Real push failures will surface on the next step when
-cubic finds nothing to review.)
+Let real failures surface (auth, non-fast-forward, hook rejection) —
+the loop should halt rather than re-trigger cubic against a stale
+remote SHA. `git push` returns 0 when there's nothing to push, so
+"everything up-to-date" is already not an error.
 
 Brief settle so GitHub registers the push:
 
@@ -158,7 +159,7 @@ freshest:
    ```bash
    REVIEW_JSON=$(
      gh api "repos/$OWNER/$REPO/pulls/$PR/reviews" \
-       --jq '[.[] | select(.body | test("^PR score:"; "m"))] | sort_by(.submitted_at) | last'
+       --jq '[.[] | select((.body // "") | test("^PR score:"; "m"))] | sort_by(.submitted_at) | last'
    )
    ```
 
@@ -215,11 +216,17 @@ Run the project's quality gates locally before pushing, if defined in
 `AGENTS.md` / `cubic.yaml`. For this repo:
 
 ```bash
-bun run check && bunx tsc --noEmit
+bun run check
+bunx tsc --noEmit
 ```
 
-If they fail because of the fix, iterate on the fix — don't push broken
-code at cubic and let it re-flag it.
+**Gate on regressions, not absolute pass.** Before iter 1, capture a
+baseline by running each gate against the branch's merge-base with the
+target branch. A gate that was already failing on `main` (e.g. a
+pre-existing `tsc` error from an empty `src/`) is **not** a blocker for
+the loop — only a gate that flips from passing to failing because of a
+cubic fix is. Otherwise the loop dead-ends on environmental issues that
+no fix to the cubic findings can address.
 
 ### G. Resolve addressed threads
 

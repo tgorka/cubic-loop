@@ -119,14 +119,25 @@ alias — continue with the rest.
 ## Detecting a cubic stamp (auto-approval)
 
 cubic's stamp = a `state == "APPROVED"` review authored by the cubic
-bot:
+bot. Use the resolved bot login from the [Identifying the cubic bot](#identifying-the-cubic-bot)
+section (`$CUBIC_BOT`) and require `user.type == "Bot"` so a regular
+user whose login happens to start with `cubic` can't trip a false
+auto-approval:
 
 ```bash
 STAMP=$(
   gh api "repos/$OWNER/$REPO/pulls/$PR/reviews" \
-    --jq '[.[] | select(.user.login | test("^cubic"; "i")) | select(.state == "APPROVED")] | last | .id // empty'
+    --jq --arg bot "$CUBIC_BOT" \
+      '[.[]
+        | select(.user.type == "Bot")
+        | select(.user.login == $bot)
+        | select(.state == "APPROVED")
+       ] | last | .id // empty'
 )
 ```
+
+If `$CUBIC_BOT` hasn't been resolved yet (cubic hasn't reviewed the PR
+at all), stamp detection is by definition negative — skip the query.
 
 If non-empty, cubic has stamped this PR.
 
