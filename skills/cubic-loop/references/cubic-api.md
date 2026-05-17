@@ -124,15 +124,19 @@ section (`$CUBIC_BOT`) and require `user.type == "Bot"` so a regular
 user whose login happens to start with `cubic` can't trip a false
 auto-approval:
 
+`gh api --jq` runs gh's embedded jq and does **not** accept jq CLI
+flags like `--arg`. Pipe through the real `jq` binary so the bot login
+can be passed in safely without shell interpolation into the filter:
+
 ```bash
 STAMP=$(
   gh api "repos/$OWNER/$REPO/pulls/$PR/reviews" \
-    --jq --arg bot "$CUBIC_BOT" \
-      '[.[]
-        | select(.user.type == "Bot")
-        | select(.user.login == $bot)
-        | select(.state == "APPROVED")
-       ] | last | .id // empty'
+    | jq -r --arg bot "$CUBIC_BOT" \
+        '[.[]
+          | select(.user.type == "Bot")
+          | select(.user.login == $bot)
+          | select(.state == "APPROVED")
+         ] | last | .id // ""'
 )
 ```
 

@@ -65,6 +65,15 @@ the user should see what's wrong:
    ```
    If no PR and the user didn't pass `--pr`, halt and tell them to open
    one first.
+6. **Baseline-gate check.** Stash any in-progress work, check out the
+   merge-base with the PR's base branch (`git merge-base HEAD origin/<base>`),
+   and run each project gate (e.g. `bun run check`, `bunx tsc --noEmit`).
+   Return to the PR HEAD. Any gate that already fails on the merge-base
+   is **environmental**, not caused by this PR — halt with a clear
+   message asking the user to fix baseline first. Cubic-loop refuses to
+   silently mask such failures, and a strict in-loop gate (step F) would
+   otherwise dead-end on them. If all gates pass on the baseline, record
+   that they're expected to pass on every iteration and continue.
 
 Resolve `OWNER` and `REPO` once from `gh repo view --json owner,name`.
 
@@ -220,13 +229,15 @@ bun run check
 bunx tsc --noEmit
 ```
 
-**Gate on regressions, not absolute pass.** Before iter 1, capture a
-baseline by running each gate against the branch's merge-base with the
-target branch. A gate that was already failing on `main` (e.g. a
-pre-existing `tsc` error from an empty `src/`) is **not** a blocker for
-the loop — only a gate that flips from passing to failing because of a
-cubic fix is. Otherwise the loop dead-ends on environmental issues that
-no fix to the cubic findings can address.
+**Gates are strict during the loop — every gate must exit 0 before
+push.** If a fix breaks a gate, iterate on the fix; don't push broken
+code at cubic and let it re-flag it.
+
+The "what if a gate is failing on `main`?" case is handled by the
+baseline preflight (see Preflight § 6), not by relaxing the in-loop
+gate. That way the loop never silently masks regressions, but it also
+can't dead-end on an environmental failure that no cubic fix could ever
+address.
 
 ### G. Resolve addressed threads
 
