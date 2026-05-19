@@ -28,16 +28,43 @@ bun run check   # Biome lint + tests (release-blocker gate)
 
 ## Install as a Claude Code plugin
 
-This repo is a single-plugin Claude Code marketplace. Inside Claude Code:
+This repo is a single-plugin Claude Code marketplace. Pick whichever entry point you prefer — they target the same plugin and marketplace.
+
+### From inside Claude Code
 
 ```
 /plugin marketplace add tgorka/cubic-loop
 /plugin install cubic@cubic-loop
 ```
 
-The first command registers `cubic-loop` as a marketplace pointing at this GitHub repo; the second installs the `cubic` plugin from it. After installation the skill becomes available as `cubic:cubic-loop` (use it via `/cubic:cubic-loop` or the `Skill` tool with `skill: cubic:cubic-loop`).
-
 To update later: `/plugin update cubic@cubic-loop`. To remove: `/plugin uninstall cubic@cubic-loop`.
+
+### From the `claude` CLI (alternative)
+
+If you prefer the shell — for example to install before opening Claude Code, or to script setup across machines:
+
+```bash
+claude plugin marketplace add tgorka/cubic-loop
+claude plugin install cubic@cubic-loop
+```
+
+Common follow-ups:
+
+```bash
+claude plugin list                                  # show installed plugins
+claude plugin update cubic@cubic-loop               # pull the latest version
+claude plugin uninstall cubic@cubic-loop            # remove
+claude plugin marketplace update cubic-loop         # refresh the marketplace metadata
+claude plugin install cubic@cubic-loop --scope project   # scope: user (default) | project | local
+```
+
+Run `claude plugin --help` for the full surface.
+
+### What you get
+
+The first command registers `cubic-loop` as a marketplace pointing at this GitHub repo; the second installs the `cubic` plugin from it. After installation the skill becomes available as `cubic:cubic-loop` — invoke it via `/cubic:cubic-loop` inside Claude Code, or reference it as `skill: cubic:cubic-loop` from the `Skill` tool.
+
+### Hand-copy fallback
 
 You can also drop the skill in by hand by copying `skills/cubic-loop/` into `~/.claude/skills/cubic-loop/`; the plugin layer is a convenience around the same source tree.
 
